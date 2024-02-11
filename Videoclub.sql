@@ -706,7 +706,7 @@ group by c.titulo;
 /*
  * Consulta realizada con row_number si hay un empate solo te da el primero de los géneros
  */
-select s.id_socio, s.nombre, subconsulta.genero_favorito
+select s.id_socio, CONCAT(s.nombre, ' ', s.apellido_1, ' ', s.apellido_2), subconsulta.genero_favorito
 from videoclub.socios s
 inner join (
 select s.id_socio, p.genero as genero_favorito, row_number () over (partition by s.id_socio order by count(*) desc) as rn
@@ -721,7 +721,7 @@ where rn = 1;
 /*
  * Consulta realizada con rank por si hay un empate cuando elige el género favorito
  */
-select s.id_socio, s.nombre, subconsulta.genero_favorito
+select s.id_socio, CONCAT(s.nombre, ' ', s.apellido_1, ' ', s.apellido_2), subconsulta.genero_favorito
 from videoclub.socios s
 inner join (
 select s.id_socio, p.genero as genero_favorito, rank() over (partition by s.id_socio order by count(*) desc) as rank
